@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head::show"/>
+<body>
+
+<div th:replace="fragments/navbar"/>
+<br/>
+<form method="POST" action="/events/add" accept-charset="UTF-8">
+    <th:block th:object="${event}">
+        <input id="csrf" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <div class="list-group col-sm-offset-3 conteiner">
+            <div class="row">
+                <div>
+                    <label>Name</label>
+                </div>
+                <div id="name" class="col-sm-8" th:classappend="${#fields.hasErrors('name')} ? 'has-danger'">
+                    <input class="list-group-item col-sm-12" type="text" th:field="${event.name}"/>
+                </div>
+            </div>
+            <div class="form-control-feedback"
+                 th:each="error : ${#fields.errors('name')}"
+                 th:text="|Name ${error}|"/>
+            <div class="row">
+                <div>
+                    <label>Start Date</label>
+                </div>
+                <div id="startDate" class="col-sm-8" th:classappend="${#fields.hasErrors('startDate')} ? 'has-danger'">
+                    <input class="list-group-item col-sm-12" type="text" placeholder="e.g. 2000-05-08" th:field="${event.startDate}"/>
+                </div>
+            </div>
+            <div class="form-control-feedback"
+                 th:each="error : ${#fields.errors('startDate')}"
+                 th:text="|Start ${error}|"/>
+            <div class="row">
+                <div>
+                    <label>End Date</label>
+                </div>
+                <div id="endDate" class="col-sm-8" th:classappend="${#fields.hasErrors('global')} ? 'has-danger'">
+                    <input class="list-group-item col-sm-12" type="text" placeholder="e.g. 2000-05-08" th:field="${event.endDate}"/>
+                </div>
+            </div>
+            <div class="form-control-feedback"
+                 th:each="error : ${#fields.errors('global')}"
+                 th:text="|End ${error}|"/>
+            <div class="row">
+                <div>
+                    <label>Country</label>
+                </div>
+                <div id="countryName" class="col-sm-8"
+                     th:classappend="${#fields.hasErrors('countryName')} ? 'has-danger'">
+                    <select class="list-group-item col-sm-12" data-toggle="dropdown" type="text"
+                            th:field="${event.countryName}"></select>
+                </div>
+            </div>
+            <div class=" form-control-feedback"
+                 th:each="error : ${#fields.errors('countryName')}"
+                 th:text="|Country ${error}|"/>
+            <div class="row">
+                <div>
+                    <label>Latitude</label>
+                </div>
+                <div id="latitude" class="col-sm-8">
+                    <input class="list-group-item col-sm-12" type="number" min="0" step="any" th:field="${event.latitude}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>Longitude</label>
+                </div>
+                <div id="longitude" class="col-sm-8">
+                    <input class="list-group-item col-sm-12" type="number" step="any" min="0" th:field="${event.longitude}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>Required Budged</label>
+                </div>
+                <div id="requiredBudget" class="col-sm-8"
+                     th:classappend="${#fields.hasErrors('requiredBudget')} ? 'has-danger'">
+                    <input class="list-group-item col-sm-12" type="number" min="0" step="any"
+                           th:field="${event.requiredBudget}"/>
+                </div>
+            </div>
+            <div class="form-control-feedback"
+                 th:each="error : ${#fields.errors('requiredBudget')}"
+                 th:text="|Budged ${error}|"/>
+            <div class="row">
+                <div>
+                    <label>Objectives</label>
+                </div>
+                <div id="objectives" class="col-sm-8">
+                    <input class="list-group-item col-sm-12" type="text" maxlength="100" th:field="${event.objectives}"/>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-sm-8">
+                    <input type="submit" class="list-group btn btn-success col-sm-12" value="Register Event"/>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</form>
+
+
+<th:block th:replace="scripts/script::edit"/>
+</body>
+<div class="col-sm-offset-11">
+    <div>
+        <a href="/events/all">
+            <i class="fa fa-reply fa-3x"/>
+        </a>
+    </div>
+</div>
+</html>

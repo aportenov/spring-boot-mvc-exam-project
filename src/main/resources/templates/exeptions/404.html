@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head::events" />
+<body>
+<div th:replace="fragments/navbar" />
+<h1 class="h1">404 Not Found</h1>
+<a class="btn btn-primary" href="/">Go Home</a>
+<th:block th:replace="scripts/script::events" />
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head::show"/>
+<body>
+<div th:replace="fragments/navbar"/>
+<div class="container">
+    <p>
+    <h2>Articles</h2></p>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Content</th>
+            <th>Creation Date</th>
+            <th>Text</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody th:each="article,i : ${articles}">
+        <th:block th:if="${article.text} != null">
+            <tr>
+                <td><span th:text="${i.index+1}"/></td>
+                <td><span th:text="${article.name}"/></td>
+                <td>
+                    <a th:href="@{'https://www.youtube.com/embed/' + ${article.content}}" target="_blank" >
+                        <i class="fa fa-location-arrow fa-2x" aria-hidden="true">
+                        </i>
+                    </a>
+                </td>
+                <td><span
+                        th:text="${article.creationDate} != null ? ${#dates.format(article.creationDate , 'dd-MM-yyyy')} : ''"/>
+                </td>
+                <td>
+                    <span th:text="${article.text}"/></td>
+                <td>
+                    <a th:href="@{'/article/edit/' + ${article.id}}">
+                        <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
+                    </a>
+                </td>
+                <td>
+                    <a th:href="@{'/article/delete/' + ${article.id}}">
+                        <i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+<th:block th:replace="scripts/script::show"/>
+</body>
+<footer>
+    <th:block th:replace="fragments/pages::articles" />
+    <div class="col-sm-offset-11">
+        <div>
+            <a href="/">
+                <i class="fa fa-reply fa-3x"/>
+            </a>
+        </div>
+    </div>
+</footer>
+</html>

@@ -1,0 +1,62 @@
+<div class="container" xmlns:th="">
+    <div class="row">
+        <h2>Countries</h2>
+        <div class="col-sm-offset-1 col-sm-2">
+            <a href="#"><h4>Country code</h4></a>
+        </div>
+        <div class="col-sm-6">
+            <a href=""><h4>Country Name</h4></a>
+            <h4></h4>
+        </div>
+        <div class="col-sm-2">
+            <a href="" data-toggle="modal" data-target="#addCountry"><h4>Add Country</h4></a>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div  class="modal fade" id="addCountry" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">add Country</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" name="countryCode" id="newCountryCode"
+                           placeholder="Enter country code here"/>
+                    <input type="text" class="form-control" name="countryName" id="newCountryName"
+                           placeholder="Enter country name here"/>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" onclick="addCountry()" data-dismiss="modal">Create Country</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End -->
+    <div class="list-group" th:each="country : ${countries}">
+        <input id="csrf" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <div th:id="${country.id}" class="row col-sm-11 mb-0">
+            <div class="col-sm-1">
+                <a class="list-group-item disabled"><span th:text="${country.id}"/></a>
+            </div>
+            <div class="col-sm-2" th:name="|${country.id}code|">
+                <a class="list-group-item disabled"><span th:text="${country.countryCode}"/></a>
+            </div>
+            <div class="col-sm-7" th:name="|${country.id}name|">
+                <a class="list-group-item disabled"><span th:text="${country.countryName}"/></a>
+            </div>
+            <div class="col-sm-1" id="edit">
+                <a th:onclick="'javascript:getCountry(\''+ ${country.id} +'\');'">
+                    <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="col-sm-1" id="delete">
+                <a  th:onclick="'javascript:getCountryForDelete(\''+ ${country.id} +'\');'">
+                    <i class="fa fa-times fa-3x" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>

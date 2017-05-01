@@ -1,0 +1,17 @@
+body {
+    background-image: url('/../../images/oops.png');
+    background-size: cover;
+    position: absolute;
+    background-repeat: no-repeat;
+
+}
+
+a{
+   margin-top: 50ch;
+    margin-left: 100ch;
+}
+
+.btn-primary {
+    width: 25ch;
+    height:5ch;
+}
