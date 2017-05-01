@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head::home"/>
+<body>
+<div th:replace="fragments/navbar"/>
+<div th:replace="body/home-view"/>
+<div th:replace="login"/>
+<th:block th:replace="scripts/script::home"/>
+</body>
+</html>

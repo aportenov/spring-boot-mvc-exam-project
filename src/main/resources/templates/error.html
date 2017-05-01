@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head::error"/>
+<body>
+<main>
+    <div>
+        <a class="btn btn-primary" href="/">Go Home</a>
+    </div>
+</main>
+<th:block th:replace="scripts/script::error"/>
+</body>
+</html>

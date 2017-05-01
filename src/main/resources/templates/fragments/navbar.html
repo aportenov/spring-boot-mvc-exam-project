@@ -1,0 +1,160 @@
+<div lang="en"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <div id="navbar-full">
+        <div id="navbar">
+            <!--
+             navbar-default can be changed with navbar-ct-blue navbar-ct-azzure navbar-ct-red navbar-ct-green navbar-ct-orange
+             -->
+            <nav class="navbar navbar-default navbar-fixed-top navbar-transparent" role="navigation">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="/">
+                                    <i class="pe-7s-global"></i>
+                                    <p>Home</p>
+                                </a>
+                            </li>
+                            <th:block sec:authorize="isAuthenticated()">
+                                <li>
+                                    <a href="javascript:void(0);" data-toggle="search" class="hidden-xs">
+                                        <i class="pe-7s-search"></i>
+                                        <p>Search</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/events/all">
+                                        <i class="pe-7s-map-marker"></i>
+                                        <p>Events</p>
+                                    </a>
+                                </li>
+                                <th:block sec:authorize="hasRole('ADMIN')">
+                                    <li>
+                                        <a href="/volunteers/all">
+                                            <i class="pe-7s-users"></i>
+                                            <p>Users</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/organizations/all">
+                                            <i class="pe-7s-world"></i>
+                                            <p>Organizations</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/funders/all">
+                                            <i class="pe-7s-wallet"></i>
+                                            <p>Funders</p>
+                                        </a>
+                                    </li>
+                                </th:block>
+                                <li class="dropdown" id="loggedUser"
+                                    th:name="${#authentication.getPrincipal().getId()}">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <th:block sec:authorize="hasAnyRole('ROLE_SOCIAL')">
+                                            <img id="userProfile" class="img-circle"
+                                                 th:attr="src=@{${#authentication.getPrincipal().getImage()}}"/>
+                                        </th:block>
+                                        <th:block sec:authorize="hasRole('ROLE_USER')">
+                                            <i class="pe-7s-user"></i>
+                                        </th:block>
+                                        <th:block sec:authorize="hasAnyRole('ROLE_ORGANIZATION', 'ROLE_FUNDER')">
+                                            <img id="userProfile" class="img-circle"
+                                                 th:attr="src=@{${#authentication.getPrincipal().getLogo()}}"/>
+                                        </th:block>
+
+                                        <p>Account <b class="caret"></b></p>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <th:block sec:authorize="hasAnyRole('ROLE_SOCIAL','ADMIN', 'ROLE_USER')">
+                                            <li>
+                                                <a th:href="@{'/volunteer/' + ${#authentication.getPrincipal().getId()}}">My
+                                                    Profile</a>
+                                            </li>
+                                        </th:block>
+                                        <th:block sec:authorize="hasAnyRole('ROLE_SOCIAL', 'ROLE_USER')">
+                                            <li>
+                                                <a th:href="@{'/events/volunteer/' + ${#authentication.getPrincipal().getId()}}">Signed
+                                                    Events</a></li>
+                                        </th:block>
+                                        <th:block sec:authorize="hasAnyRole('ROLE_ORGANIZATION')">
+                                            <li>
+                                                <a th:href="@{'/organization/' + ${#authentication.getPrincipal().getId()}}">My
+                                                    Profile</a>
+                                            </li>
+                                            <li>
+                                                <a th:href="@{'/events/organization/' + ${#authentication.getPrincipal().getId()}}">My
+                                                    Events</a></li>
+                                            <li>
+                                                <a href="/events/add">Add
+                                                    Event</a></li>
+                                        </th:block>
+                                        <th:block sec:authorize="hasAnyRole('ROLE_FUNDER')">
+                                            <li>
+                                                <a th:href="@{'/funder/' + ${#authentication.getPrincipal().getId()}}">My
+                                                    Profile</a>
+                                            </li>
+                                            <li>
+                                                <a th:href="@{'/events/funder/' + ${#authentication.getPrincipal().getId()}}">Funded
+                                                    Events</a></li>
+                                        </th:block>
+                                        <th:block sec:authorize="hasAnyRole('ADMIN')">
+                                            <li>
+                                                <a th:href="@{'/countries/all'}">Countries</a>
+                                            </li>
+                                            <li>
+                                                <a th:href="@{'/events/admin'}">
+                                                    Events</a></li>
+                                            <li>
+                                                <a th:href="@{'/countries/all'}">Countries</a>
+                                            </li>
+                                            <li>
+                                                <a th:href="@{'/article/add'}">Create article</a>
+                                            </li>
+                                            <li>
+                                                <a th:href="@{'/articles/all'}">Articles</a>
+                                            </li>
+                                        </th:block>
+                                        <li class="divider"></li>
+                                        <li><a href="/logout">Logout</a></li>
+                                    </ul>
+                                </li>
+                            </th:block>
+                            <th:block sec:authorize="isAnonymous()">
+                                <li>
+                                    <a data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();">
+                                        <i class="pe-7s-add-user">
+                                        </i>
+                                        <p>Login</p>
+                                    </a>
+                                </li>
+                            </th:block>
+                        </ul>
+                        <form method="get" action="/events/all" class="navbar-form navbar-right navbar-search-form"
+                              role="search">
+                            <div class="form-group">
+                                <input type="text" id="searchWord" name="searchWord" value="" class="form-control"
+                                       placeholder="Search..."/>
+                            </div>
+                        </form>
+
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
+            <div class="blurred-container">
+                <div class="img-src"></div>
+            </div>
+        </div><!--  end navbar -->
+    </div> <!-- end menu-dropdown -->
+</div>

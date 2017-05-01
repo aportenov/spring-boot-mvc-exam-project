@@ -1,0 +1,210 @@
+<div th:fragment="countries">
+    <nav class="text-center">
+        <ul class="pagination">
+            <!--Arrow left-->
+            <th:block th:if="${countries.hasPrevious()}">
+                <li class="page-item">
+                    <a class="page-link" aria-label="Previous"
+                       th:href="${countries.hasPrevious()} ? ''  + '?page=' + ${countries.previousPageable().getPageNumber()}">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+            </th:block>
+
+            <!--Numbers-->
+            <th:block th:if="${countries.getTotalPages() > 1}">
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, countries.getTotalPages() - 1)}"
+                    th:classappend="${countries.getNumber()==i} ? 'active'">
+                    <a class="page-link" href="" th:href="'' + '?page=' + ${i}" th:text="${i + 1}">1</a>
+                </li>
+            </th:block>
+
+            <!--Arrow right-->
+            <th:block th:if="${countries.hasNext()}">
+                <li class="page-item">
+                    <a class="page-link" aria-label="Next"
+                       th:href="${countries.hasNext()} ? ''  + '?page=' + ${countries.nextPageable().getPageNumber()}">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </th:block>
+        </ul>
+    </nav>
+</div>
+<div th:fragment="events">
+    <nav class="text-center">
+        <ul class="pagination">
+            <!--Arrow left-->
+            <th:block th:if="${events.hasPrevious()}">
+                <li class="page-item">
+                    <a class="page-link" aria-label="Previous"
+                       th:href="${events.hasPrevious()} ? ''  + '?page=' + ${events.previousPageable().getPageNumber()}">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+            </th:block>
+
+            <!--Numbers-->
+            <th:block th:if="${events.getTotalPages() > 1}">
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, events.getTotalPages() - 1)}"
+                    th:classappend="${events.getNumber()==i} ? 'active'">
+                    <a class="page-link" href="" th:href="'' + '?page=' + ${i}" th:text="${i + 1}">1</a>
+                </li>
+            </th:block>
+
+            <!--Arrow right-->
+            <th:block th:if="${events.hasNext()}">
+                <li class="page-item">
+                    <a class="page-link" aria-label="Next"
+                       th:href="${events.hasNext()} ? ''  + '?page=' + ${events.nextPageable().getPageNumber()}">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </th:block>
+        </ul>
+    </nav>
+</div>
+<div th:fragment="organizations">
+    <nav class="text-center">
+        <ul class="pagination">
+            <!--Arrow left-->
+            <th:block th:if="${organizations.hasPrevious()}">
+                <li class="page-item">
+                    <a class="page-link" aria-label="Previous"
+                       th:href="${organizations.hasPrevious()} ? ''  + '?page=' + ${organizations.previousPageable().getPageNumber()}">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+            </th:block>
+
+            <!--Numbers-->
+            <th:block th:if="${organizations.getTotalPages() > 1}">
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, organizations.getTotalPages() - 1)}"
+                    th:classappend="${organizations.getNumber()==i} ? 'active'">
+                    <a class="page-link" href="" th:href="'' + '?page=' + ${i}" th:text="${i + 1}">1</a>
+                </li>
+            </th:block>
+
+            <!--Arrow right-->
+            <th:block th:if="${organizations.hasNext()}">
+                <li class="page-item">
+                    <a class="page-link" aria-label="Next"
+                       th:href="${organizations.hasNext()} ? ''  + '?page=' + ${organizations.nextPageable().getPageNumber()}">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </th:block>
+        </ul>
+    </nav>
+</div>
+<div th:fragment="funders">
+    <nav class="text-center">
+        <ul class="pagination">
+            <!--Arrow left-->
+            <th:block th:if="${funders.hasPrevious()}">
+                <li class="page-item">
+                    <a class="page-link" aria-label="Previous"
+                       th:href="${funders.hasPrevious()} ? ''  + '?page=' + ${funders.previousPageable().getPageNumber()}">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+            </th:block>
+
+            <!--Numbers-->
+            <th:block th:if="${funders.getTotalPages() > 1}">
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, funders.getTotalPages() - 1)}"
+                    th:classappend="${funders.getNumber()==i} ? 'active'">
+                    <a class="page-link" href="" th:href="'' + '?page=' + ${i}" th:text="${i + 1}">1</a>
+                </li>
+            </th:block>
+
+            <!--Arrow right-->
+            <th:block th:if="${funders.hasNext()}">
+                <li class="page-item">
+                    <a class="page-link" aria-label="Next"
+                       th:href="${funders.hasNext()} ? ''  + '?page=' + ${funders.nextPageable().getPageNumber()}">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </th:block>
+        </ul>
+    </nav>
+</div>
+<div th:fragment="volunteers">
+    <nav class="text-center">
+        <ul class="pagination">
+            <!--Arrow left-->
+            <th:block th:if="${volunteers.hasPrevious()}">
+                <li class="page-item">
+                    <a class="page-link" aria-label="Previous"
+                       th:href="${volunteers.hasPrevious()} ? ''  + '?page=' + ${volunteers.previousPageable().getPageNumber()}">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+            </th:block>
+
+            <!--Numbers-->
+            <th:block th:if="${volunteers.getTotalPages() > 1}">
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, volunteers.getTotalPages() - 1)}"
+                    th:classappend="${volunteers.getNumber()==i} ? 'active'">
+                    <a class="page-link" href="" th:href="'' + '?page=' + ${i}" th:text="${i + 1}">1</a>
+                </li>
+            </th:block>
+
+            <!--Arrow right-->
+            <th:block th:if="${volunteers.hasNext()}">
+                <li class="page-item">
+                    <a class="page-link" aria-label="Next"
+                       th:href="${volunteers.hasNext()} ? ''  + '?page=' + ${volunteers.nextPageable().getPageNumber()}">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </th:block>
+        </ul>
+    </nav>
+</div>
+<div th:fragment="articles">
+    <nav class="text-center">
+        <ul class="pagination">
+            <!--Arrow left-->
+            <th:block th:if="${articles.hasPrevious()}">
+                <li class="page-item">
+                    <a class="page-link" aria-label="Previous"
+                       th:href="${articles.hasPrevious()} ? ''  + '?page=' + ${articles.previousPageable().getPageNumber()}">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+            </th:block>
+
+            <!--Numbers-->
+            <th:block th:if="${articles.getTotalPages() > 1}">
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, articles.getTotalPages() - 1)}"
+                    th:classappend="${articles.getNumber()==i} ? 'active'">
+                    <a class="page-link" href="" th:href="'' + '?page=' + ${i}" th:text="${i + 1}">1</a>
+                </li>
+            </th:block>
+
+            <!--Arrow right-->
+            <th:block th:if="${articles.hasNext()}">
+                <li class="page-item">
+                    <a class="page-link" aria-label="Next"
+                       th:href="${articles.hasNext()} ? ''  + '?page=' + ${articles.nextPageable().getPageNumber()}">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </th:block>
+        </ul>
+    </nav>
+</div>

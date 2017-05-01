@@ -1,0 +1,35 @@
+<div class="container" xmlns:th="">
+    <p><h2>Organizations</h2></p>
+    <div class="col-sm-offset-1 col-sm-11">
+        <label><h4>Organization Name</h4></label>
+    </div>
+    <div class="list-group" th:each="organization,i : ${organizations}">
+        <div  class="row col-sm-11 mb-0">
+            <div class="col-sm-1">
+                <a class="list-group-item disabled"><span th:text="${i.index+1}"/></a>
+            </div>
+            <div class="col-sm-10">
+                <a  class="list-group-item disabled"><span th:text="${organization.name}"/></a>
+            </div>
+            <div class="col-xs-1" id="edit">
+                <a th:href="@{'/organization/' + ${organization.id}}">
+                    <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="organizationModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Organization</h4>
+                </div>
+                <p>this isorganization</p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

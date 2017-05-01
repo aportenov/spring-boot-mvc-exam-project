@@ -1,0 +1,27 @@
+<div class="main">
+    <div class="container tim-container" style="max-width:800px; padding-top:80px">
+        <h1 class="text-center">Our goal is to make the earth a better place<br/>
+            <small class="subtitle">We provide network of vulenteers and organizations to help the Earth <br/>
+            </small>
+        </h1>
+        <th:block th:each="article,i : ${articles}">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="caption">
+                        <h4 class="text-center">
+                            <div class="comment more" th:text="${article.name}" />
+                        </h4>
+                        <p>
+                            <div class="comment more" th:text="${article.text}"/>
+                        </p>
+                    </div>
+                    <div id="media" class="col-sm-8 col-sm-offset-2">
+                        <iframe class="list-group-item col-sm-12" width="450" height="345"
+                                th:src="@{'https://www.youtube.com/embed/' + ${article.content}}"/>
+                    </div>
+                </div>
+            </div>
+            <br/>
+        </th:block>
+    </div>
+</div>

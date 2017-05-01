@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head::show" />
+<body>
+<div th:replace="fragments/navbar" />
+<div th:replace="body/organizations-view" />
+<th:block th:replace="scripts/script::show" />
+<footer>
+    <th:block th:replace="fragments/pages::organizations" />
+    <div class="col-sm-offset-11">
+        <div>
+            <a href="/">
+                <i class="fa fa-reply fa-3x"/>
+            </a>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

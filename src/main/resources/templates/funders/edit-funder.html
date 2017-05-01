@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head::show"/>
+<body>
+
+<div th:replace="fragments/navbar"/>
+<th:block th:object="${registerFunderModel}">
+    <form method="post" onsubmit="return isPasswordsMatch()"
+          th:action="@{'/funder/update/' + ${registerFunderModel.id}}" accept-charset="UTF-8">
+        <input id="csrf" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <br/>
+        <div th:class="text-center">
+            <img id="userLogo" class="img-circle" th:attr="src=@{${registerFunderModel.getLogo()}}"/>
+            <h3><span th:text="${registerFunderModel.name}"/></h3>
+        </div>
+        <br/>
+        <!-- Modal -->
+        <div class="modal fade" id="addPassword" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Change Password</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input id="password" type="password" name="password" min="6"
+                                   class="list-group-item col-sm-12"
+                                   th:field="${registerFunderModel.password}" placeholder="enter password"/>
+                        </div>
+                        <div class="form-group">
+                            <input id="confirmPassword" type="password"  class="list-group-item col-sm-12"
+                                   name="confirmPassword" placeholder="repeat password"/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" data-dismiss="modal" class="btn btn-success">Change password</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End -->
+        <div class="list-group col-sm-offset-3 conteiner">
+            <div class="row">
+                <div>
+                    <label>Username</label>
+                </div>
+                <div class="col-sm-8" id="username">
+                    <input class="list-group-item col-sm-12" readonly="readonly" th:field="${registerFunderModel.username}"/>
+                </div>
+            </div>
+            <div class="row" id="newPasswordRow">
+                <div>
+                    <label>Password</label>
+                </div>
+                <div  class="col-sm-8" th:classappend="${#fields.hasErrors('password')} ? 'has-danger'">
+                    <input type="password" class="list-group-item col-sm-12" readonly="readonly"
+                           th:field="${registerFunderModel.password}"/>
+                </div>
+                <div class="col-sm-1" id="editpassword">
+                    <a href="" data-toggle="modal" data-target="#addPassword">
+                        <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            <div id="confirmPassordError" hidden="hidden" class="form-control-feedback">
+                <small>Passwords does not match</small>
+            </div>
+            <div class="row">
+                <div>
+                    <label>Name</label>
+                </div>
+                <div class="col-sm-8" id="name">
+                    <input class="list-group-item col-sm-12" readonly="readonly" th:field="${registerFunderModel.name}"/>
+                    <!-- <a href="#"  class="list-group-item disabled"><span th:text="*{username}"/></a>-->
+                </div>
+                <div class="col-sm-1" id="editname">
+                    <a  th:onclick="'javascript:editField(\'name\');'">
+                        <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>Country</label>
+                </div>
+                <div id="countryName" class="col-sm-8"
+                     th:classappend="${#fields.hasErrors('countryName')} ? 'has-danger'">
+                    <input class="list-group-item col-sm-12" readonly="readonly" th:field="${registerFunderModel.countryName}"/>
+                </div>
+                <div class="col-sm-1" id="editcountryName">
+                    <a  th:onclick="'javascript:editField(\'countryName\');'">
+                        <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="form-control-feedback"
+                 th:each="error : ${#fields.errors('countryName')}"
+                 th:text="|Country ${error}|"/>
+            <div class="row">
+                <div>
+                    <label>Address</label>
+                </div>
+                <div id="address" class="col-sm-8" th:classappend="${#fields.hasErrors('address')} ? 'has-danger'">
+                    <input class="list-group-item col-sm-12" readonly="readonly" th:field="${registerFunderModel.address}"/>
+                </div>
+                <div class="col-sm-1" id="editaddress">
+                    <a  th:onclick="'javascript:editField(\'address\');'">
+                        <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="form-control-feedback"
+                 th:each="error : ${#fields.errors('address')}"
+                 th:text="|Address ${error}|"/>
+            <div class="row">
+                <div>
+                    <label>Priority</label>
+                </div>
+                <div id="priority" class="col-sm-8" th:classappend="${#fields.hasErrors('priority')} ? 'has-danger'">
+                    <input class="list-group-item col-sm-12" readonly="readonly" th:field="${registerFunderModel.priority}"/>
+                </div>
+                <div class="col-sm-1" id="editpriority">
+                    <a  th:onclick="'javascript:editField(\'priority\');'">
+                        <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="form-control-feedback"
+                 th:each="error : ${#fields.errors('priority')}"
+                 th:text="|Priority ${error}|"/>
+
+            <div class="row">
+                <div>
+                    <label>Web page</label>
+                </div>
+                <div id="website" class="col-sm-8" th:classappend="${#fields.hasErrors('website')} ? 'has-danger'">
+                    <input class="list-group-item col-sm-12" readonly="readonly" th:field="${registerFunderModel.website}"/>
+                </div>
+                <div class="col-sm-1" id="editwebsite">
+                    <a  th:onclick="'javascript:editField(\'website\');'">
+                        <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="form-control-feedback"
+                 th:each="error : ${#fields.errors('website')}"
+                 th:text="|Web page ${error}|"/>
+
+            <div class="row">
+                <div>
+                    <label>Logo</label>
+                </div>
+                <div id="logo" class="col-sm-8">
+                    <input class="list-group-item col-sm-12" readonly="readonly" th:field="${registerFunderModel.logo}"/>
+                </div>
+                <div class="col-sm-1" id="editlogo">
+                    <a  th:onclick="'javascript:editField(\'logo\');'">
+                        <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
+</th:block>
+<th:block th:replace="scripts/script::edit"/>
+</body>
+<footer>
+    <div class="col-sm-offset-11">
+        <div>
+            <a href="/">
+                <i class="fa fa-reply fa-3x"/>
+            </a>
+        </div>
+    </div>
+</footer>
+</html>

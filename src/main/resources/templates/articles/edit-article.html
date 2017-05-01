@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head::show"/>
+<body>
+
+<div th:replace="fragments/navbar"/>
+<br/>
+<th:block th:object="${article}">
+    <form method="POST" th:action="'/article/update/' + ${article.id}"  accept-charset="UTF-8">
+        <input id="csrf" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <div class="list-group col-sm-offset-3 conteiner">
+            <div class="row">
+                <div>
+                    <label>Name</label>
+                </div>
+                <div id="name" class="col-sm-8" th:classappend="${#fields.hasErrors('name')} ? 'has-danger'">
+                    <input class="list-group-item col-sm-12" placeholder="name" type="text" th:field="${article.name}"/>
+                </div>
+            </div>
+            <div class="form-control-feedback"
+                 th:each="error : ${#fields.errors('name')}"
+                 th:text="|Name ${error}|"/>
+            <div class="row">
+                <div>
+                    <label>Media Content</label>
+                </div>
+                <div id="content" class="col-sm-8" th:classappend="${#fields.hasErrors('content')} ? 'has-danger'">
+                    <span class="list-group-item col-sm-6">https://www.youtube.com/embed/</span>
+                    <input class="list-group-item col-sm-6" placeholder="Embed code" min="11" max="11" type="text"
+                           th:field="${article.content}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div></div>
+                <div id="media" class="col-sm-8">
+                    <iframe class="list-group-item col-sm-12" width="420" height="345"
+                            th:src="@{'https://www.youtube.com/embed/' + ${article.content}}"/>
+                </div>
+            </div>
+            <div class="form-control-feedback"
+                 th:each="error : ${#fields.errors('content')}"
+                 th:text="|End date ${error}|"/>
+            <div class="row">
+                <div>
+                    <label>Text</label>
+                </div>
+                <div id="text" class="col-sm-8">
+                    <textarea class="list-group-item col-sm-12" row="5" type="text" min="0" placeholder="Description"
+                              th:field="${article.text}"/>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-sm-8">
+                    <input type="submit" class="list-group btn btn-success col-sm-12" value="Update Article"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</th:block>
+<th:block th:replace="scripts/script::edit"/>
+</body>
+<footer>
+    <div class="col-sm-offset-11">
+        <div>
+            <a href="/articles/all">
+                <i class="fa fa-reply fa-3x"/>
+            </a>
+        </div>
+    </div>
+</footer>
+</html>

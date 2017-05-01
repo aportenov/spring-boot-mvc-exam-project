@@ -1,0 +1,111 @@
+<div class="container" xmlns:th="http://www.w3.org/1999/html">
+    <div class="row">
+        <h1 class="title">
+            List of available Events
+            <br/>
+            <small>Participate Now</small>
+        </h1>
+        <div class="col-sm-10 col-sm-offset-1">
+            <div th:each="event : ${events}">
+                <div class="col-md-4 col-sm-6">
+                    <div class="card-container">
+                        <div class="card">
+                            <div class="front">
+                                <div class="cover">
+                                    <img src="../../images/card.png"/>
+                                </div>
+                                <div class="user">
+                                    <img class="img-circle" th:attr="src=@{${event.organization.logo}}"/>
+                                </div>
+                                <div class="content">
+                                    <div class="main">
+                                        <h3 class="name"><span th:text="${event.name}"/></h3>
+                                        <br/>
+                                        <p class="text-center"><small th:text="${event.objectives}"/></p>
+                                    </div>
+                                    <div class="footer">
+                                        <i class="fa fa-mail-forward"></i> info
+                                    </div>
+                                </div>
+                            </div> <!-- end front panel -->
+                            <div class="back">
+                                <div class="header">
+                                    <h4 class="text-center">
+                                        <small>
+                                            Funded By:
+                                        </small>
+                                        <th:block th:if="${event.funder} != null">
+                                            <a th:href="${event.funder.website}">
+                                                <span th:text="${event.funder.name}"/>
+                                            </a>
+                                        </th:block>
+                                    </h4>
+                                </div>
+                                <div class="content">
+                                    <div class="main">
+                                        <h6 class="text-center">
+                                            <small th:text="|Start date : ${#dates.format(event.startDate, 'dd-MMM-yyyy')}|"/>
+                                        </h6>
+                                        <h6 class="text-center">
+                                            <small th:text="|End date : ${#dates.format(event.endDate, 'dd-MMM-yyyy')}|"/>
+                                        </h6>
+                                        <h6 class="text-center">
+                                            <small th:text="|Location: ${event.countryName}"/>
+                                        </h6>
+                                        <input id="csrf" type="hidden" th:name="${_csrf.parameterName}"
+                                               th:value="${_csrf.token}"/>
+                                        <img th:src="@{https://maps.googleapis.com/maps/api/staticmap?center={latitude},{longitude}&amp;zoom=6&amp;size=240x100&amp;markers=color:blue|label:S|{latitude},{longitude}&amp;markers=size:tiny&amp;key={key}(latitude=${event.latitude},longitude=${event.longitude}, key=${key})}"/>
+                                        <div class="stats-container">
+                                            <div class="stats">
+                                                <a th:href="'mailto:' + ${event.organization.username} + '?subject= Event ' + ${event.name} +';'">
+                                                    <i class="fa fa-envelope-o  fa-2x" aria-hidden="true"></i>
+                                                </a>
+                                                <p>
+                                                    Email Us:
+                                                </p>
+                                            </div>
+                                            <div class="stats">
+                                                <h5><span th:text="${event.requiredBudget}"/></h5>
+                                                <p>
+                                                    Budged:
+                                                </p>
+                                            </div>
+                                            <div class="stats">
+                                                <a th:href="@{'http://' + ${event.organization.website}}">
+                                                    <i class="fa fa-external-link fa-2x" aria-hidden="true"></i>
+                                                </a>
+                                                <p>
+                                                    Our Page:
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <th:block sec:authorize="hasAnyRole('ROLE_SOCIAL', 'ROLE_USER')">
+                                                <div class="row" th:id="${event.id}" >
+                                                    <a th:onclick="'javascript:participate(\''+ ${event.id} +'\');'">
+                                                        <h4>Participate</h4>
+                                                    </a>
+                                                </div>
+                                            </th:block>
+                                            <th:block sec:authorize="hasRole('ROLE_FUNDER')">
+                                                <th:block th:if="${event.funder} == null">
+                                                    <div class="row" th:id="${event.id}">
+                                                        <a th:onclick="'javascript:fundit(\''+ ${event.id} +'\');'">
+                                                            <h4>Fund It</h4>
+                                                        </a>
+                                                    </div>
+                                                </th:block>
+                                            </th:block>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="space-200"></div>
+</div>
+

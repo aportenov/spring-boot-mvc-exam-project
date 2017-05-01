@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/head::show"/>
+<body>
+
+<div th:replace="fragments/navbar"/>
+<br/>
+<th:block th:object="${event}">
+    <form method="post" th:action="@{'/event/update/' + ${event.id}}" accept-charset="UTF-8">
+        <input id="csrf" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input type="hidden" th:attr="name='funderUsername'"  th:value="${event.funderUsername}"/>
+        <input type="hidden" th:attr="name='organizationUsername'"  th:value="${event.organizationUsername}"/>
+        <input id="eventId" type="hidden" th:value="*{id}"/>
+        <div class="text-center">
+            <h3><span th:text="${event.name}"/></h3>
+        </div>
+        <br/>
+        <div class="list-group col-sm-offset-3 conteiner">
+            <div class="row">
+                <div>
+                    <label>Name</label>
+                </div>
+                <div class="col-sm-8" id="name">
+                    <input class="list-group-item col-sm-12" readonly="readonly" th:field="${event.name}"/>
+                </div>
+                <div class="col-sm-1" id="editname">
+                    <a href="#editname" th:onclick="'javascript:editField(\'name\');'">
+                        <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>Start Date</label>
+                </div>
+                <div id="startDate" class="col-sm-8"
+                     th:classappend="${#fields.hasErrors('startDate')} ? 'has-danger'">
+                    <input class="list-group-item col-sm-12" readonly="readonly" th:field="${event.startDate}"/>
+                </div>
+                <div class="col-sm-1" id="editstartDate">
+                    <a href="#editstartDate" th:onclick="'javascript:editField(\'startDate\');'">
+                        <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="form-control-feedback"
+                 th:each="error : ${#fields.errors('startDate')}"
+                 th:text="|Start Date ${error}|"/>
+            <div class="row">
+                <div>
+                    <label>End Date</label>
+                </div>
+                <div id="endDate" class="col-sm-8" th:classappend="${#fields.hasErrors('global')} ? 'has-danger'">
+                    <input class="list-group-item col-sm-12" readonly="readonly" th:field="${event.endDate}"/>
+                </div>
+                <div class="col-sm-1" id="editendDate">
+                    <a href="#editendDate" th:onclick="'javascript:editField(\'endDate\');'">
+                        <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="form-control-feedback"
+                 th:each="error : ${#fields.errors('global')}"
+                 th:text="|End Date ${error}|"/>
+            <th:block sec:authorize="hasAnyRole('ROLE_ORGANIZATION','ROLE_SOCIAL', 'ROLE_USER')">
+                <div class="row">
+                    <div>
+                        <label>Funder</label>
+                    </div>
+                    <div id="funderName" class="col-sm-7">
+                        <input class="list-group-item col-sm-11" readonly="readonly" th:attr="name='funderName'"  th:value="${event.funderName}"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <a th:href="'mailto:' + ${event.funderUsername} + '?subject= Event ' + ${event.name} + ';'">
+                            <i class="fa fa-envelope-o fa-3x" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="col-sm-1">
+                        <input type="hidden" th:attr="name='funderWebsite'"  th:value="${event.funderWebsite}"/>
+                        <a th:attr="href='http://' + ${event.funderWebsite}">
+                            <i class="fa fa-external-link fa-3x" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </th:block>
+            <th:block sec:authorize="hasAnyRole('ROLE_FUNDER','ROLE_SOCIAL', 'ROLE_USER')">
+                <div class="row">
+                    <div>
+                        <label>Organization</label>
+                    </div>
+                    <div id="organizationName" class="col-sm-7">
+                        <input class="list-group-item col-sm-11" readonly="readonly" th:attr="name='organizationName'" th:value="${event.organizationName}"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <a th:href="'mailto:' + ${event.organizationUsername} + '?subject= Event ' + ${event.name} +';'">
+                            <i class="fa fa-envelope-o fa-3x" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="col-sm-1">
+                        <input type="hidden" th:attr="name='organizationWebsite'" th:value="${event.organizationWebsite}"/>
+                        <a th:attr="href='http://' + ${event.organizationWebsite}">
+                            <i class="fa fa-external-link fa-3x" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </th:block>
+            <div class="row">
+                <div>
+                    <label>Country </label>
+                </div>
+                <div id="countryName" class="col-sm-8">
+                    <input class="list-group-item col-sm-12" readonly="readonly"
+                           th:field="${event.countryName}"/>
+                </div>
+                <div class="col-sm-1" id="editcountryName">
+                    <a href="#" th:onclick="'javascript:editField(\'countryName\');'">
+                        <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>Latitude </label>
+                </div>
+                <div id="latitude" class="col-sm-8">
+                    <input class="list-group-item col-sm-12" readonly="readonly"
+                           th:field="${event.latitude}"/>
+                </div>
+                <div class="col-sm-1" id="editlatitude">
+                    <a href="#" th:onclick="'javascript:editField(\'latitude\');'">
+                        <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>Longitude</label>
+                </div>
+                <div id="longitude" class="col-sm-8">
+                    <input class="list-group-item col-sm-12" readonly="readonly"
+                           th:field="${event.longitude}"/>
+                </div>
+                <div class="col-sm-1" id="editlongitude">
+                    <a href="#" th:onclick="'javascript:editField(\'longitude\');'">
+                        <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>Required Budged</label>
+                </div>
+                <div id="requiredBudget" class="col-sm-8">
+                    <input class="list-group-item col-sm-12" readonly="readonly" th:field="${event.requiredBudget}"/>
+                </div>
+                <div class="col-sm-1" id="editrequiredBudget">
+                    <a href="#" th:onclick="'javascript:editField(\'requiredBudget\');'">
+                        <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>Objectives</label>
+                </div>
+                <div id="objectives" class="col-sm-8">
+                    <input class="list-group-item col-sm-12" readonly="readonly" th:field="${event.objectives}"/>
+                </div>
+                <div class="col-sm-1" id="editobjectives">
+                    <a href="#" th:onclick="'javascript:editField(\'objectives\');'">
+                        <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>Status </label>
+                </div>
+                <div id="active" class="col-sm-8">
+                    <input class="list-group-item col-sm-12" readonly="readonly" name="active"
+                           th:value="${event.active} == true ? 'Active' : 'Expired'"/>
+                </div>
+                <div class="col-sm-1" id="editactive">
+                    <a href="#" th:onclick="'javascript:editField(\'active\');'">
+                        <i class="fa fa-pencil-square-o fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <label>Volunteers</label>
+                </div>
+                <div id="numberOfVolunteers" class="col-sm-8">
+                    <input class="list-group-item col-sm-12" readonly="readonly"
+                           th:field="${event.numberOfVolunteers}"/>
+                </div>
+                <div class="col-sm-1" id="editnumberOfVolunteers">
+                    <a th:onclick="'javascript:showVolunteers();'">
+                        <i class="fa fa-list fa-3x" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <label>
+                            <small class="modal-title" th:text="|People volunteered for ${event.name}|"/>
+                        </label>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Country</th>
+                                <th>Email Me</th>
+                            </tr>
+                            </thead>
+                            <tbody id="body">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</th:block>
+<th:block th:replace="scripts/script::edit"/>
+</body>
+<footer>
+    <div class="col-sm-offset-11">
+        <div>
+            <a href="/events/all">
+                <i class="fa fa-reply fa-3x"/>
+            </a>
+        </div>
+    </div>
+</footer>
+</html>
