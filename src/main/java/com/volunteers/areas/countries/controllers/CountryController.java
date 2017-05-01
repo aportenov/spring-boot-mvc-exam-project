@@ -43,7 +43,7 @@ public class CountryController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("all")
-    public String showCountries(Model model,@PageableDefault(size = 50) Pageable pageable){
+    public String showCountries(Model model,@PageableDefault(size = 20) Pageable pageable){
         Page<CountryViewModel> countryViewModels = this.countryService.findAllCountries(pageable);
         model.addAttribute("countries", countryViewModels);
 
