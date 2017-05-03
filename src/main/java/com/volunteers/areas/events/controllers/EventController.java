@@ -11,6 +11,7 @@ import com.volunteers.areas.events.services.EventService;
 import com.volunteers.areas.users.entities.Volunteer;
 import com.volunteers.config.Params;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -47,17 +48,19 @@ public class EventController {
                 .anyMatch(r -> r.getAuthority().equals("ROLE_USER")
                         || r.getAuthority().equals("ROLE_SOCIAL"));
 
+
         Page<EventViewModel> eventViewModels = null;
         searchWord = searchWord == null ? "" : searchWord;
         if (hasUserRoles) {
             Long id = ((Volunteer)authentication.getPrincipal()).getId();
             eventViewModels = this.eventService.findWhereCurrentVolunteerIsNull(id,pageable,searchWord);
         }else{
-            eventViewModels = this.eventService.findAll(pageable,searchWord);
+           eventViewModels = this.eventService.findAll(pageable,searchWord);
+
         }
 
-        model.addAttribute("title" , "Events");
         model.addAttribute("events", eventViewModels);
+        model.addAttribute("title" , "Events");
         model.addAttribute("key", Params.GOOGLE_KEY);
 
         return "/events/show-events";

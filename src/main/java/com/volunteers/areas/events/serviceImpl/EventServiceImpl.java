@@ -172,7 +172,12 @@ public class EventServiceImpl implements EventService {
             }
         }
 
-        return new PageImpl<>(eventViewModels, pageable, myEvents.getTotalElements());
+        int max = (pageable.getPageSize()*( pageable.getPageNumber() + 1) > eventViewModels.size()) ?
+                eventViewModels.size(): pageable.getPageSize()*( pageable.getPageNumber() + 1);
+
+        return new PageImpl<>(eventViewModels
+                .subList(pageable.getPageNumber()*pageable.getPageSize(), max),
+                pageable, eventViewModels.size());
     }
 
     @Override
