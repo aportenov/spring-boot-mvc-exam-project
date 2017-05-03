@@ -40,7 +40,9 @@ public class ArticleController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/articles/all")
-    public String showArticlesPage(Model model,@PageableDefault(size = 20) Pageable pageable) {
+    public String showArticlesPage(Model model
+            ,@PageableDefault(size = 5) Pageable pageable) {
+
         Page<ArticleViewModel> articleViewModels = this.articleService.findAll(pageable);
         model.addAttribute("articles", articleViewModels);
         model.addAttribute("title" , "Articles");

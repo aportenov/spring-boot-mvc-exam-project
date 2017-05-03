@@ -38,7 +38,10 @@ public class EventController {
     }
 
     @GetMapping("/events/all")
-    public String showEventsPage(@RequestParam(value = "searchWord", required = false) String searchWord, Model model, @PageableDefault(size = 20) Pageable pageable){
+    public String showEventsPage(@RequestParam(value = "searchWord", required = false) String searchWord,
+                                 Model model,
+                                 @PageableDefault(size = 9) Pageable pageable){
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         boolean hasUserRoles = authentication.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("ROLE_USER")
@@ -73,7 +76,9 @@ public class EventController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or (#id == principal.id)")
     @GetMapping("/events/organization/{id}")
-    public String getEventsByOrganizationIdPage(@PathVariable long id, Model model,@PageableDefault(size = 20) Pageable pageable){
+    public String getEventsByOrganizationIdPage(@PathVariable long id,
+                                                Model model,
+                                                @PageableDefault(size = 20) Pageable pageable){
         Page<EventMyViewModel> eventViewModelBasics = this.eventService.findAllByOrganization(id,pageable);
         model.addAttribute("events", eventViewModelBasics);
         model.addAttribute("title" , "My Events");
@@ -84,7 +89,9 @@ public class EventController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or (#id == principal.id)")
     @GetMapping("/events/funder/{id}")
-    public String getEventsByFunderIdPage(@PathVariable long id, Model model, Pageable pageable){
+    public String getEventsByFunderIdPage(@PathVariable long id,
+                                          Model model,
+                                          @PageableDefault(size = 20) Pageable pageable){
         Page<EventMyViewModel> eventViewModelBasics = this.eventService.findAllByFunder(id, pageable);
         model.addAttribute("events", eventViewModelBasics);
         model.addAttribute("title" , "Funded Events");
@@ -95,7 +102,9 @@ public class EventController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or #id == principal.id")
     @GetMapping("/events/volunteer/{id}")
-    public String getEventsByVolunteerIdPage(@PathVariable long id, Model model, Pageable pageable){
+    public String getEventsByVolunteerIdPage(@PathVariable long id,
+                                             Model model,
+                                             @PageableDefault(size = 20) Pageable pageable){
         Page<EventMyViewModel> eventViewModelBasics = this.eventService.findAllByVolunteer(id, pageable);
         model.addAttribute("events", eventViewModelBasics);
         model.addAttribute("title" , "My Events");
@@ -200,7 +209,8 @@ public class EventController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/events/admin")
-    public String getEvents(Model model, Pageable pageable){
+    public String getEvents(Model model,
+                            @PageableDefault(size = 20) Pageable pageable){
         Page<EventMyViewModel> eventViewModelBasics = this.eventService.findAllAdminView(pageable);
         model.addAttribute("events", eventViewModelBasics);
         model.addAttribute("title" , "Admin Panel - Events");

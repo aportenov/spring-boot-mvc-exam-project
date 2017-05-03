@@ -1,20 +1,17 @@
 package com.volunteers.areas.events.repositories;
 
 import com.volunteers.areas.events.entities.Event;
-import com.volunteers.areas.users.entities.AbstractUser;
 import com.volunteers.areas.users.entities.Organization;
 import com.volunteers.areas.users.repositories.OrganizationRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.EmbeddedDatabaseConnection;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +34,8 @@ public class EventRepositoryTest {
     private static final int EXPECTED_LIST_SIZE_TRUE = 1;
     private static final int EXPECTED_LIST_SIZE_FALSE = 0;
 
-
+    @MockBean
+    private Pageable pageable;
 
     @Autowired
     private TestEntityManager testEntityManager;
@@ -76,39 +74,39 @@ public class EventRepositoryTest {
         trueEvent.setOrganization(org);
         this.testEntityManager.persist(trueEvent);
 
-        List<Event> events = this.eventRepository.findByOrganizationId(org.getId());
+        Page<Event> events = this.eventRepository.findByOrganizationId(org.getId(), pageable);
 
         //Assert
-        assertEquals(EXPECTED_LIST_SIZE_TRUE, events.size());
+        assertEquals(EXPECTED_LIST_SIZE_TRUE, events.getTotalElements());
     }
 
     @Test
     public void findEventWhenActiveIsTrueAndSearchWordIsPresent_ShouldReturnCorrectEvent() throws Exception {
         //Act
-        List<Event> eventList = this.eventRepository.findByIsActiveTrue(SEARCH_WORD_TRUE);
+        Page<Event> eventList = this.eventRepository.findByIsActiveTrue(SEARCH_WORD_TRUE, pageable);
 
         //Assert
-        assertEquals(EXPECTED_LIST_SIZE_TRUE,eventList.size());
+        assertEquals(EXPECTED_LIST_SIZE_TRUE,eventList.getTotalElements());
 
     }
 
     @Test
     public void findEventWhenActiveIsTrueAndSearchWordIsNull_ShouldReturnCorrectEvent() throws Exception {
         //Act
-        List<Event> eventList = this.eventRepository.findByIsActiveTrue(EMPTY_SEARCH_WORD);
+        Page<Event> eventList = this.eventRepository.findByIsActiveTrue(EMPTY_SEARCH_WORD, pageable);
 
         //Assert
-        assertEquals(EXPECTED_LIST_SIZE_TRUE, eventList.size());
+        assertEquals(EXPECTED_LIST_SIZE_TRUE, eventList.getTotalElements());
 
     }
 
     @Test
     public void findEventWhenActiveIsTrueAndWrongSearchWordIsGiven_ShouldReturnEmptyList() throws Exception {
         //Act
-        List<Event> eventList = this.eventRepository.findByIsActiveTrue(SEARCH_WORD_FALSE);
+        Page<Event> eventList = this.eventRepository.findByIsActiveTrue(SEARCH_WORD_FALSE, pageable);
 
         //Assert
-        assertEquals(EXPECTED_LIST_SIZE_FALSE, eventList.size());
+        assertEquals(EXPECTED_LIST_SIZE_FALSE, eventList.getTotalElements());
 
     }
 

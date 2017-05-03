@@ -32,11 +32,6 @@ import java.util.List;
 @Service
 public class EventServiceImpl implements EventService {
 
-    private static final int VALUE_ZERO = 0;
-    private static final int DEFAILT_VALUE = 1;
-    private static final int MY_EVENTS_VALUE = 20;
-    private static int EVENTS_VALUE = 20;
-
     private final CountryRepository countryRepository;
     private final FunderRepository funderRepository;
     private final EventRepository eventRepository;
@@ -60,7 +55,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Page<EventViewModel> findAll(Pageable pageable, String searchWord) {
-        List<Event> events = this.eventRepository.findByIsActiveTrue(searchWord);
+        Page<Event> events = this.eventRepository.findByIsActiveTrue(searchWord, pageable);
         List<EventViewModel> eventViewModels = new ArrayList<>();
         for (Event event : events) {
             EventViewModel eventViewModel = this.modelMapper.map(event, EventViewModel.class);
@@ -68,9 +63,7 @@ public class EventServiceImpl implements EventService {
             eventViewModels.add(eventViewModel);
         }
 
-        int totalPages = eventViewModels.size() == VALUE_ZERO ? DEFAILT_VALUE : eventViewModels.size() / EVENTS_VALUE;
-
-        return new PageImpl<>(eventViewModels, pageable, totalPages);
+        return new PageImpl<>(eventViewModels, pageable, events.getTotalElements());
     }
 
     @Override
@@ -87,16 +80,14 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public Page<EventMyViewModel> findAllByOrganization(long organizationId, Pageable pageable) {
-        List<Event> events = this.eventRepository.findByOrganizationId(organizationId);
+        Page<Event> events = this.eventRepository.findByOrganizationId(organizationId, pageable);
         List<EventMyViewModel> eventMyViewModels = new ArrayList<>();
         for (Event event : events) {
             EventMyViewModel eventMyViewModel = this.modelMapper.map(event, EventMyViewModel.class);
             eventMyViewModels.add(eventMyViewModel);
         }
 
-        int totalPages = eventMyViewModels.size() == VALUE_ZERO ? DEFAILT_VALUE : eventMyViewModels.size()/ MY_EVENTS_VALUE;
-
-        return new PageImpl<>(eventMyViewModels, pageable, totalPages);
+        return new PageImpl<>(eventMyViewModels, pageable, events.getTotalElements());
     }
 
     @Override
@@ -139,36 +130,32 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Page<EventMyViewModel> findAllByVolunteer(long id, Pageable pageable) {
-        List<Event> events = this.eventRepository.findByVolunteer(id);
+        Page<Event> events = this.eventRepository.findByVolunteer(id, pageable);
         List<EventMyViewModel> eventMyViewModels = new ArrayList<>();
         for (Event event : events) {
             EventMyViewModel eventMyViewModel = this.modelMapper.map(event, EventMyViewModel.class);
             eventMyViewModels.add(eventMyViewModel);
         }
 
-        int totalPages = eventMyViewModels.size() == VALUE_ZERO ? DEFAILT_VALUE : eventMyViewModels.size() / EVENTS_VALUE;
-
-        return new PageImpl<>(eventMyViewModels, pageable, totalPages);
+        return new PageImpl<>(eventMyViewModels, pageable, events.getTotalElements());
     }
 
     @Override
     public Page<EventMyViewModel> findAllByFunder(long id, Pageable pageable) {
-        List<Event> events = this.eventRepository.findByFunder(id);
+        Page<Event> events = this.eventRepository.findByFunder(id, pageable);
         List<EventMyViewModel> eventMyViewModels = new ArrayList<>();
         for (Event event : events) {
             EventMyViewModel eventMyViewModel = this.modelMapper.map(event, EventMyViewModel.class);
             eventMyViewModels.add(eventMyViewModel);
         }
 
-        int totalPages = eventMyViewModels.size() == VALUE_ZERO ? DEFAILT_VALUE : eventMyViewModels.size() / MY_EVENTS_VALUE;
-
-        return new PageImpl<>(eventMyViewModels, pageable, totalPages);
+        return new PageImpl<>(eventMyViewModels, pageable, events.getTotalElements());
     }
 
     @Override
     public Page<EventViewModel> findWhereCurrentVolunteerIsNull(long id, Pageable pageable, String searchWord) {
         List<Event> notParticipatedEvents = this.eventRepository.findWhereCurrentUserNotVolunteering(id,searchWord);
-        List<Event> myEvents = this.eventRepository.findByVolunteer(id);
+        Page<Event> myEvents = this.eventRepository.findByVolunteer(id, pageable);
         List<EventViewModel> eventViewModels = new ArrayList<>();
         for (Event notParticipatedEvent : notParticipatedEvents) {
             boolean hasEvent = false;
@@ -185,9 +172,7 @@ public class EventServiceImpl implements EventService {
             }
         }
 
-        int totalPages = eventViewModels.size() == VALUE_ZERO ? DEFAILT_VALUE : eventViewModels.size() / EVENTS_VALUE;
-
-        return new PageImpl<>(eventViewModels, pageable, totalPages);
+        return new PageImpl<>(eventViewModels, pageable, myEvents.getTotalElements());
     }
 
     @Override
@@ -226,7 +211,7 @@ public class EventServiceImpl implements EventService {
                 eventMyViewModels.add(eventMyViewModel);
         }
 
-        return new PageImpl<>(eventMyViewModels, pageable, events.getTotalPages());
+        return new PageImpl<>(eventMyViewModels, pageable, events.getTotalElements());
     }
 
 

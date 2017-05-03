@@ -39,7 +39,7 @@ public class ArticleServiceImpl implements ArticleService {
             articleViewModels.add(articleViewModel);
         }
 
-        return new PageImpl<>(articleViewModels,pageable, articles.getTotalPages());
+        return new PageImpl<>(articleViewModels,pageable, articles.getTotalElements());
     }
 
     @Override
