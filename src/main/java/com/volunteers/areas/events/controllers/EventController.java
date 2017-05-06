@@ -56,7 +56,6 @@ public class EventController {
             eventViewModels = this.eventService.findWhereCurrentVolunteerIsNull(id,pageable,searchWord);
         }else{
            eventViewModels = this.eventService.findAll(pageable,searchWord);
-
         }
 
         model.addAttribute("events", eventViewModels);
