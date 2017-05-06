@@ -239,13 +239,12 @@
                 headers: {
                     'X-CSRF-TOKEN': $('#csrf').val()
                 },
-                success: function () {
-                    cancel()
-                }
-            })
+                success:  location.reload(),
+            });
         }
 
         function updateData(itemId) {
+            let href = $('#countries').attr('href');
 
             $.ajax({
                 type: "PUT",
@@ -259,15 +258,14 @@
                 },
                 dataType: 'json',
                 contentType: 'application/json',
-                success: function () {
-                    cancel()
-                }
-            });
+                success:
+                    window.location.href = href,
+        });
 
         }
 
         function cancel() {
-            window.location.reload();
+            location.reload();
         }
 
     </script>
@@ -402,7 +400,7 @@
                 type: 'GET',
                 url: '/status',
                 data: 'json',
-                success: function (status) {1
+                success: function (status) {
                     loadUpdateStatus(status);
                 }
             });
@@ -439,8 +437,8 @@
         }
 
         function isPasswordsMatch() {
-            var firstPassword = $('#password').val();
-            var secondPassword = $('#confirmPassword').val();
+            var firstPassword = $('#firstRequestedPassword').val();
+            var secondPassword = $('#secondRequestedPassword').val();
 
             if (secondPassword != undefined) {
                 if (firstPassword != secondPassword) {
