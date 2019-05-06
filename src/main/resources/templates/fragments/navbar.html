@@ -33,12 +33,14 @@
                                         <p>Search</p>
                                     </a>
                                 </li>
+                                <th:block sec:authorize="hasPermission()">
                                 <li>
                                     <a href="/events/all">
                                         <i class="pe-7s-map-marker"></i>
                                         <p>Events</p>
                                     </a>
                                 </li>
+                                </th:block>
                                 <th:block sec:authorize="hasRole('ADMIN')">
                                     <li>
                                         <a href="/volunteers/all">
