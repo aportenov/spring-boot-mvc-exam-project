@@ -1,8 +1,0 @@
-<application>
-  <component name="FileTypeManager" version="17">
-    <extensionMap>
-      <mapping pattern="Test" type="CLASS" />
-      <mapping ext="pug" type="Native" />
-    </extensionMap>
-  </component>
-</application>
